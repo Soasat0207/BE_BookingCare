@@ -1,0 +1,1 @@
+controller bảo thằng services làm công việc và trả nó data để trả về views hiển thị cho ng dùng 
