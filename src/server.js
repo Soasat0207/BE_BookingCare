@@ -13,6 +13,7 @@ const corsOptions ={
   optionSuccessStatus:200,
 }
 //config app
+
 app.use(cors(corsOptions));// Use this after the variable declaration
 app.use(function (req, res, next) {
 
@@ -32,9 +33,10 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
-
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 viewEngine(app);
 initWebRoutes(app);
 connectDb();
