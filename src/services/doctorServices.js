@@ -83,16 +83,22 @@ let getDetailDoctorById = (id) => {
                     include:[
                         {
                             model:db.Markdown,
-                            attributes:['description','contentHTML','contentMarkdown'],
+                            // attributes:['description','contentHTML','contentMarkdown'],
                         },
                         {model:db.Allcode,as:'positionData',attributes:['valueEn','valueVi']},
                     ],
                     attributes:{
                         exclude:['password']
                     },
-                    raw: true,
+                    raw: false,
                     nest:true,
                 })
+                if(data && data.image){
+                    data.image = new Buffer(data.image,'base64').toString('binary');
+                }
+                if(!data){
+                    data={}
+                }
                 resolve({
                     errCode:0,
                     data:data,
