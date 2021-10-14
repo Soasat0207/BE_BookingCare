@@ -45,21 +45,36 @@ let getAllDoctors = () =>{
 let saveDetailsInfoDoctor =(data)=>{
     return new Promise( async (resolve, reject) => {
         try {
-            console.log(data)
-            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown|| !data.description || !data.descriptionHTML){
+            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown|| !data.description || !data.descriptionHTML || !data.action){
                 resolve({
                     errCode:1,
                     errMessage:'Missiong parameter'
                 })
             } 
             else{
-                await db.Markdown.create({
-                    contentHTML:data.contentHTML,
-                    contentMarkdown:data.contentMarkdown,
-                    descriptionHTML:data.descriptionHTML,
-                    description:data.description,
-                    doctorId:data.doctorId,
-                })
+                if(data.action ==="CREATE"){
+                    await db.Markdown.create({
+                        contentHTML:data.contentHTML,
+                        contentMarkdown:data.contentMarkdown,
+                        descriptionHTML:data.descriptionHTML,
+                        description:data.description,
+                        doctorId:data.doctorId,
+                    })
+                }
+                else if(data.action ==="EDIT"){
+                    let doctorMarkDown = await db.Markdown.findOne({
+                        where:{doctorId: data.doctorId},
+                        raw:false,
+                    })
+                    if(doctorMarkDown){
+                        doctorMarkDown.contentHTML= data.contentHTML;
+                        doctorMarkDown.contentMarkdown= data.contentMarkdown;
+                        doctorMarkDown.descriptionHTML= data.descriptionHTML;
+                        doctorMarkDown.description= data.description;
+                        doctorMarkDown.updateAt = new Date();
+                        await doctorMarkDown.save();
+                    }
+                } 
                 resolve({
                     errCode:0,
                     errMessage:'Save Info Doctor Success'
