@@ -45,7 +45,8 @@ let getAllDoctors = () =>{
 let saveDetailsInfoDoctor =(data)=>{
     return new Promise( async (resolve, reject) => {
         try {
-            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown){
+            console.log(data)
+            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown|| !data.description || !data.descriptionHTML){
                 resolve({
                     errCode:1,
                     errMessage:'Missiong parameter'
@@ -55,6 +56,7 @@ let saveDetailsInfoDoctor =(data)=>{
                 await db.Markdown.create({
                     contentHTML:data.contentHTML,
                     contentMarkdown:data.contentMarkdown,
+                    descriptionHTML:data.descriptionHTML,
                     description:data.description,
                     doctorId:data.doctorId,
                 })

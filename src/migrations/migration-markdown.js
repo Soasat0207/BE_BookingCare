@@ -14,6 +14,9 @@ module.exports = {
       contentMarkdown: {
         type: Sequelize.TEXT('long')
       },
+      descriptionHTML: {
+        type: Sequelize.TEXT('long')
+      },
       description: {
         type: Sequelize.TEXT('long')
       },
